@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   Patch,
@@ -16,6 +18,7 @@ import { UpdateEmployeeDto } from './commands/update-employee/update-employee.dt
 import { UpdateEmployeeCommand } from './commands/update-employee/update-employee.command';
 import { AssignManagerDto } from './commands/assign-manager/assign-manager.dto';
 import { AssignManagerCommand } from './commands/assign-manager/assign-mananger.command';
+import { DeleteEmployeeCommand } from './commands/delete-employee/delete-employee.command';
 
 @Controller('employees')
 export class EmployeesController {
@@ -70,5 +73,15 @@ export class EmployeesController {
     }
     const query = plainToClass(GetEmployeeQuery, { id: Number(id) });
     return this.queryBus.execute(query);
+  }
+
+  @Delete(':id')
+  @HttpCode(204)
+  async delete(@Param('id') id: string) {
+    const command = plainToClass(DeleteEmployeeCommand, { id: Number(id) });
+    const affectedRows = await this.commandBus.execute(command);
+    if (affectedRows === 0) {
+      throw new NotFoundException();
+    }
   }
 }
