@@ -30,7 +30,7 @@ Content-Type: application/json
 }
 
 ### delete employee
-
 DELETE http://localhost:3000/employees/4
 
-### get employees
+### find all employees
+GET http://localhost:3000/employees

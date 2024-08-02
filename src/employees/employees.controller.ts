@@ -19,6 +19,8 @@ import { UpdateEmployeeCommand } from './commands/update-employee/update-employe
 import { AssignManagerDto } from './commands/assign-manager/assign-manager.dto';
 import { AssignManagerCommand } from './commands/assign-manager/assign-mananger.command';
 import { DeleteEmployeeCommand } from './commands/delete-employee/delete-employee.command';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import { ListEmployeesQuery } from './queries/list-employees/list-employees.query';
 
 @Controller('employees')
 export class EmployeesController {
@@ -45,6 +47,19 @@ export class EmployeesController {
     }
 
     return employee;
+  }
+
+  @Get()
+  async findAll(@Paginate() query: PaginateQuery) {
+    const queryCommand = plainToClass(ListEmployeesQuery, query);
+
+    const employees = await this.queryBus.execute(queryCommand);
+
+    if (!employees) {
+      throw new NotFoundException();
+    }
+
+    return employees;
   }
 
   @Patch(':id')
