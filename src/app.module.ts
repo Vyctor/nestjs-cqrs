@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Meeting } from './employees/entities/meeting.entity';
-import { Task } from './employees/entities/task.entity';
+
 import { EmployeesModule } from './employees/employees.module';
 import { ReportsModule } from './reports/reports.module';
+import { MeetingsModule } from './meetings/meetings.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -15,9 +16,10 @@ import { ReportsModule } from './reports/reports.module';
       synchronize: true,
       logging: false,
     }),
-    TypeOrmModule.forFeature([Task, Meeting]),
     EmployeesModule,
     ReportsModule,
+    MeetingsModule,
+    TasksModule,
   ],
   controllers: [],
   providers: [AppService],

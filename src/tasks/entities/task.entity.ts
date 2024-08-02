@@ -1,5 +1,5 @@
+import { Employee } from 'src/employees/entities/employee.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Employee } from './employee.entity';
 
 @Entity()
 export class Task {
