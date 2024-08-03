@@ -1,0 +1,11 @@
+# find meetings
+GET http://localhost:3000/meetings/1
+
+
+### create employee
+POST http://localhost:3000/meetings
+Content-Type: application/json
+
+{
+  "attendees": [2,1,2,2,2,1]
+}
