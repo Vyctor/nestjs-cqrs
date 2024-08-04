@@ -4,13 +4,17 @@ import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { Employee } from 'src/employees/entities/employee.entity';
 import { Logger } from '@nestjs/common';
+import { EntityEventsDispatcher } from 'src/common/events/entity-events-dispatcher';
 
 @CommandHandler(AssignManagerCommand)
 export class AssignManagerHandler
   implements ICommandHandler<AssignManagerCommand, number>
 {
   private readonly logger = new Logger(AssignManagerHandler.name);
-  constructor(@InjectDataSource() private readonly dataSource: DataSource) {}
+  constructor(
+    @InjectDataSource() private readonly dataSource: DataSource,
+    private readonly eventDispatcher: EntityEventsDispatcher,
+  ) {}
 
   async execute(command: AssignManagerCommand): Promise<number> {
     return await this.dataSource.transaction(async (db) => {
@@ -34,6 +38,7 @@ export class AssignManagerHandler
       }
       employee.managerId = manager.id;
       await db.save(Employee, employee);
+      await this.eventDispatcher.dispatch(employee);
       return 1;
     });
   }

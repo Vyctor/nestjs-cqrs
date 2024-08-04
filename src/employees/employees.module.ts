@@ -6,10 +6,16 @@ import { Employee } from './entities/employee.entity';
 import { CqrsModule } from '@nestjs/cqrs';
 import { QueryHandlers } from './queries';
 import { ComamandHandlers } from './commands';
+import { EventHandlers } from './events';
+import { CommonModule } from '../common/common.module';
 
 @Module({
-  imports: [CqrsModule, TypeOrmModule.forFeature([Employee, ContactInfo])],
-  providers: [...QueryHandlers, ...ComamandHandlers],
+  imports: [
+    CqrsModule,
+    TypeOrmModule.forFeature([Employee, ContactInfo]),
+    CommonModule,
+  ],
+  providers: [...QueryHandlers, ...ComamandHandlers, ...EventHandlers],
   controllers: [EmployeesController],
 })
 export class EmployeesModule {}

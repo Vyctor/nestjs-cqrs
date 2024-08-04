@@ -15,46 +15,35 @@ export class AppService {
 
   async seed() {
     await this.dataSource.transaction(async (db) => {
-      const contactInfo = db.create(ContactInfo, {
-        email: 'ceo@acme.com',
-      });
-
-      await db.save(contactInfo);
-
       const ceo = db.create(Employee, {
         name: 'Mr. CEO',
-        contactInfo,
+        contactInfo: db.create(ContactInfo, {
+          email: 'ceo@acme.com',
+        }),
       });
-
       await db.save(ceo);
-
       const manager = db.create(Employee, {
         name: 'Manager',
         manager: ceo,
-        contactInfo: db.create(ContactInfo, {}),
+        contactInfo: db.create(ContactInfo, {
+          email: 'manager@acme.com',
+        }),
       });
-
       await db.save(manager);
-
       const task1 = db.create(Task, {
         name: 'Hire People',
         assignee: manager,
       });
-
       const task2 = db.create(Task, {
         name: 'Present to CEO',
         assignee: manager,
       });
-
       await db.save([task1, task2]);
-
       const meeting = db.create(Meeting, {
         attendees: [ceo, manager],
         zoomUrl: 'https://zoom.us/1234',
       });
-
       await db.save(meeting);
-
       meeting.attendees.push(manager);
       await db.save(meeting);
     });

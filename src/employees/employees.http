@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "name": "Vyctor Guimarães",
-  "managerId": 2,
+  "managerId": 1,
   "contactInfo": {"email": "vyctorguimaraes@acme.com", "phone": "+5564993291102"}
 }
 
@@ -26,7 +26,7 @@ PATCH http://localhost:3000/employees/3/assign-manager
 Content-Type: application/json
 
 {
-  "managerId": 1
+  "managerId": 2
 }
 
 ### delete employee

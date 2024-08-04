@@ -2,7 +2,8 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateEmployeeCommand } from './update-employee.command';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { Employee } from 'src/employees/entities/employee.entity';
+import { Employee } from '../../../employees/entities/employee.entity';
+import { EntityEventsDispatcher } from 'src/common/events/entity-events-dispatcher';
 
 @CommandHandler(UpdateEmployeeCommand)
 export class UpdateEmployeeHandler
@@ -11,6 +12,7 @@ export class UpdateEmployeeHandler
   constructor(
     @InjectDataSource()
     private readonly dataSource: DataSource,
+    private readonly eventDispatcher: EntityEventsDispatcher,
   ) {}
 
   async execute(command: UpdateEmployeeCommand): Promise<number> {
@@ -26,6 +28,7 @@ export class UpdateEmployeeHandler
       }
       db.merge(Employee, employee, command);
       await db.save(Employee, employee);
+      await this.eventDispatcher.dispatch(employee);
       return 1;
     });
   }
