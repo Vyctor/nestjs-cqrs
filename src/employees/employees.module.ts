@@ -8,10 +8,12 @@ import { QueryHandlers } from './queries';
 import { ComamandHandlers } from './commands';
 import { EventHandlers } from './events';
 import { CommonModule } from '../common/common.module';
+import { BullModule } from '@nestjs/bull';
 
 @Module({
   imports: [
     CqrsModule,
+    BullModule.registerQueue({ name: 'employees' }),
     TypeOrmModule.forFeature([Employee, ContactInfo]),
     CommonModule,
   ],

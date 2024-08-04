@@ -1,3 +1,5 @@
+# docker-compose
+data
 # Environment
 .env
 db.sqlite
