@@ -4,3 +4,5 @@
 [X] Excluir todos os funcionários
 [ ] Endpoints para tarefas
 [ ] Endpoints para reuniões
+[ ] Adicionar swagger
+[ ] Adicionar mysql
