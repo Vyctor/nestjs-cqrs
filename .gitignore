@@ -1,5 +1,6 @@
 # docker-compose
-data
+redis
+mysql
 # Environment
 .env
 db.sqlite

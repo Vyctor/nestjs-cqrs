@@ -4,5 +4,18 @@ services:
     ports:
       - '6379:6379'
     volumes:
-      - ./data:/data
+      - ./redis:/data
     command: redis-server --appendonly yes
+  mysql:
+    platform: linux/x86_64
+    image: mysql:5.7
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - ./mysql:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
