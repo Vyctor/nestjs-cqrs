@@ -1,0 +1,11 @@
+### get task
+GET http://localhost:3000/tasks/14
+
+### create task
+POST http://localhost:3000/tasks
+Content-Type: application/json
+
+{
+  "name": "Task 1",
+  "assigneeId": 2
+}
